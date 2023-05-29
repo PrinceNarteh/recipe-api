@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Recipe } from './entity/recipe.entity';
 import { RecipeDto } from './dto/recipe.dto';
 import { v4 as uuid } from 'uuid';
@@ -9,6 +9,14 @@ export class RecipesService {
 
   async getRecipes(): Promise<Recipe[]> {
     return this._recipes;
+  }
+
+  async getRecipe(recipeId: string): Promise<Recipe | undefined> {
+    const recipe = this._recipes.find((recipe) => recipe.id === recipeId);
+    if (!recipe) {
+      throw new NotFoundException('Recipe Not Found');
+    }
+    return recipe;
   }
 
   async createRecipe(recipeDto: RecipeDto): Promise<Recipe> {
