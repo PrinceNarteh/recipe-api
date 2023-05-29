@@ -3,10 +3,11 @@ import { RecipesModule } from './recipes/recipes.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Ingredient, Recipe } from './recipes/entity/recipe.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import {validate} from "./config/env.validation"
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true, validate }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
