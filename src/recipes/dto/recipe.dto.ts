@@ -1,5 +1,11 @@
 import { Type } from 'class-transformer';
-import { IsString, IsInt, IsEnum, ValidateNested } from 'class-validator';
+import {
+  IsString,
+  IsPositive,
+  IsEnum,
+  ValidateNested,
+  IsArray,
+} from 'class-validator';
 
 export enum Unit {
   MILLILITERS = 'milliliters',
@@ -18,7 +24,9 @@ export class IngredientDto {
   @IsEnum(Unit)
   unit: Unit;
 
-  @IsInt()
+  @IsPositive({
+    message: 'Quantity must be a number',
+  })
   quantity: number;
 }
 
@@ -26,6 +34,12 @@ export class RecipeDto {
   @IsString()
   name: string;
 
+  @IsString()
+  description: string;
+
+  @IsArray({
+    message: 'Ingredients is required',
+  })
   @ValidateNested({ each: true })
   @Type(() => IngredientDto)
   ingredients: IngredientDto[];
