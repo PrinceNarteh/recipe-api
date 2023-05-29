@@ -11,7 +11,7 @@ export class RecipesService {
     return this._recipes;
   }
 
-  async getRecipe(recipeId: string): Promise<Recipe | undefined> {
+  async getRecipe(recipeId: string): Promise<Recipe> {
     const recipe = this._recipes.find((recipe) => recipe.id === recipeId);
     if (!recipe) {
       throw new NotFoundException('Recipe Not Found');
